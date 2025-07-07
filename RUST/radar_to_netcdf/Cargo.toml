@@ -1,0 +1,16 @@
+[package]
+name        = "radar_to_netcdf"
+version     = "0.1.0"
+edition     = "2021"       # or "2024" if supported by your Cargo
+authors     = ["J.C. Vaught <jvaught@sc.edu>"]
+license     = "MIT OR Apache-2.0"
+description = "Convert Furuno radar CSV sweeps to a CF-compliant NetCDF file"
+
+
+[dependencies]
+anyhow      = "1"
+chrono      = { version = "0.4", default-features = false, features = ["serde", "clock"] }
+csv         = "1"
+glob        = "0.3"
+netcdf      = "0.11"
+rayon       = "1.8"
