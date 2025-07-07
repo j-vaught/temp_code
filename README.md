@@ -22,8 +22,32 @@ Below is an overview of each component.
 | `gain_statistics_helper.py` | Compute per‑(range,gain) histograms from the NetCDF file and output summary statistics. |
 | `gain_analysis_plots_summary.py` | Post‑process the histograms, select the best gains, and generate CSV/plot summaries. |
 | `test_ppt_img.py` | Miscellaneous 3‑D plotting and animation example used for presentations. |
-| `CLUTTER/` | Scripts for clutter removal experiments including Noise2Void training/inference and HDR fusion. |
-| `old_python/` | Collection of older scripts and MATLAB experiments kept for reference. |
+| `CLUTTER/` | Scripts for clutter-removal experiments (see [CLUTTER details](#clutter-experiments-pythonclutter)). |
+| `old_python/` | Archive of older scripts and MATLAB experiments (see [old_python details](#archived-scripts-pythonold_python)). |
+
+### CLUTTER experiments (`PYTHON/CLUTTER`)
+
+- `MAE_test.py` – PyTorch Masked Autoencoder training demo with TensorBoard logging.
+- `N2V_Training.py` – Patch-based Noise2Void training pipeline.
+- `N2V_Inference.py` – Apply a trained Noise2Void model to a single PNG frame.
+- `clutter_clearance_data9.py` – Offline clutter-removal pipeline with MTI subtraction, wavelets, RPCA, multi-frame denoise and HDR fusion options.
+- `clutter_clearance_data9_v2.py` – Simplified variant supporting multi-look averaging, Lee filter, BM3D/Noise2Void and optional HDR fusion.
+
+### Archived scripts (`PYTHON/old_python`)
+
+- `Lake_map_generator_SC.py` – Download South Carolina lakes and cities with OSMnx and plot them.
+- `Map_url_to_lat-long.py` – Resolve Google Maps share URLs to latitude/longitude coordinates.
+- `manual_overlay.py` – Interactive polygon mask tool with feathered ramps.
+- `MiDAS_depth.py` – Experiment with MiDaS depth estimation and orthorectification.
+- `segmentation.py` – Run an ONNX segmentation model on tiled image regions.
+- `testMAE.py` / `test_MAE_model.py` – Prototype convolutional MAE training and inference on NetCDF radar sweeps.
+- `multi-gain_distribution.py` – Radar simulator with gain sweeps and histogram plots.
+- `test_denoise.py` – Multi-gain simulation plus Ridge-regression clutter removal.
+- `radar_simulations/` – Collection of small simulation modules and CFAR examples.
+- `TXT.NC_script.py` – Convert a ZIP of text sweeps into a NetCDF dataset.
+- `test_png_data.py` – Extract EXIF metadata from sample images.
+- `plot_radar_sweep.m` – MATLAB routine for visualizing radar data.
+- `.xlsx`/`.csv` files – Mapping datasets used by other scripts.
 
 All Python code expects NumPy, Pandas and other scientific packages.  Many scripts contain absolute paths that should be edited before running.
 
