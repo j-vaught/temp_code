@@ -1,15 +1,58 @@
-#!/usr/bin/env python3
-"""png_mp4_adaptive.py – *third‑pass* refactor.
+"""png_mp4.py
+=========================================================================================
+Radar Data + Satellite Imagery → Video Renderer
+=========================================================================================
 
-   • Guarantees a **fixed output resolution** (width × height is determined
-     from the first overlay PNG).  Every satellite crop is resized to that
-     resolution, so MoviePy never encounters mismatched frame sizes – the
-     usual culprit behind "garbled after N seconds" H.264 streams.
-   • Satellite mosaic margin is now computed from the **true maximum radius**
-     including any overlay whose range‑code wasn’t in the lookup table (it
-     falls back to 48 NM).
-   • Cleaned up caches, removed pad logic (no black borders because we always
-     resize the crop).
+This script generates a video from a sequence of radar images (PNGs) overlaid on
+satellite imagery. It dynamically fetches satellite tiles, rotates them to align
+with the radar's heading, and crops them to match the radar's range. The radar
+images are then composited onto the satellite background, and the sequence is
+encoded into an MP4 video.
+
+-----------------------------------------------------------------------------------------
+WHAT IT DOES:
+- Reads radar metadata (latitude, longitude, heading) from a NetCDF file.
+- Lists all radar image PNGs from a specified directory.
+- For each radar image:
+    1. Determines the radar's range and unit from the filename.
+    2. Calculates the required satellite mosaic size based on the maximum radar range.
+    3. Fetches satellite imagery tiles from ArcGIS Online.
+    4. Rotates the satellite mosaic to align with the radar's true north heading.
+    5. Crops the satellite image to the current radar range and resizes it to the
+       radar image's resolution.
+    6. Overlays the radar PNG onto the prepared satellite background.
+    7. Optionally flips the radar overlay vertically (useful for some datasets).
+- Compiles the sequence of composited frames into an MP4 video.
+
+-----------------------------------------------------------------------------------------
+INPUTS:
+- NC_FILE:      Path to the input NetCDF file containing radar metadata.
+- OVERLAYS_DIR: Directory containing the radar image PNGs.
+- OUTPUT_VIDEO: Desired output path for the MP4 video.
+
+-----------------------------------------------------------------------------------------
+OUTPUTS:
+- An MP4 video file (`OUTPUT_VIDEO`) showing the radar data animated over satellite
+  imagery.
+
+-----------------------------------------------------------------------------------------
+CUSTOMIZATION (see USER CONFIG section):
+- NC_FILE:        Path to the NetCDF file.
+- OVERLAYS_DIR:   Directory of radar PNGs.
+- OUTPUT_VIDEO:   Output video filename.
+- ZOOM:           ArcGIS World-Imagery zoom level (higher = more detailed).
+- TILE_SIZE:      Size of satellite tiles in pixels (ArcGIS fixed at 256).
+- FPS:            Frames per second for the output video.
+- PAD_TILES:      Extra safety margin around the maximum radar range (tiles).
+- FLIP_OVERLAY_Y: Whether to flip the radar overlay vertically (True/False).
+- A_SHIFT:        Azimuth offset in degrees to rotate the satellite image (e.g.,
+                  190° for 10° clockwise from north).
+-----------------------------------------------------------------------------------------
+REQUIREMENTS:
+- Python 3.x
+- Required libraries: `numpy`, `xarray`, `PIL`, `moviepy`, `requests`
+- ArcGIS Online access for satellite imagery tiles.
+-----------------------------------------------------------------------------------------
 """
 
 from __future__ import annotations
@@ -155,7 +198,7 @@ def make_frame_gen(rot_bg: Image.Image, overlays: List[str], lat: float,
 
 def main():
     lat, lon, heading = read_lat_lon_heading(NC_FILE)
-    heading = (heading + A_SHIFT) % 360 ########### CHANGE THIS LINE TO ADD AZIMUTH OFFSET ###########
+    heading = (heading + A_SHIFT) % 360
     overlays = list_overlays(OVERLAYS_DIR)
     if not overlays:
         sys.exit("no overlays found")

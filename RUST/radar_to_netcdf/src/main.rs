@@ -1,5 +1,7 @@
 
-// USAGE cargo run --release /path/to/data /path/to/output.nc
+// USAGE cargo run --release 
+// SPECIFY the file paths BELOW!!!
+
 
 use anyhow::{anyhow, bail, Result};
 use chrono::{Duration, FixedOffset, NaiveDate, NaiveDateTime, NaiveTime, TimeZone};
@@ -18,6 +20,9 @@ use std::{
 // ─────────────────────────────────────────────────────────────────────
 // Constants
 // ─────────────────────────────────────────────────────────────────────
+pub const BASE_DIR:    &str = "/Users/jacobvaught/Downloads/Research_radar_DATA/sample/test";
+pub const OUTPUT_PATH: &str = "/Users/jacobvaught/Downloads/Research_radar_DATA/sample/test/output.nc";
+
 pub const MAX_PULSE: usize = 8192;
 pub const GATE:      usize = 868;
 pub const FILL_F32:  f32   = -9_999.0;
@@ -105,7 +110,7 @@ fn parse_csv_record(rec: &StringRecord) -> Result<(i32, i32, i32, f32, Vec<f32>)
     if rec.len() < 5 + GATE {
         bail!("row too short: expected at least {} fields, got {}", 5 + GATE, rec.len());
     }
-
+    
     let sc:  i32 = rec[1].parse()?;
     let rc:  i32 = rec[2].parse()?;
     let gn:  i32 = rec[3].parse()?;
@@ -157,8 +162,8 @@ struct SweepData {
 // Main
 // ─────────────────────────────────────────────────────────────────────
 fn main() -> Result<()> {
-    let base_dir    = Path::new("/Users/jacobvaught/Downloads/Research_radar_DATA/data/data_9");
-    let output_path = "/Users/jacobvaught/Downloads/Research_radar_DATA/data/data_9/output.nc";
+    let base_dir    = Path::new(BASE_DIR);
+    let output_path = OUTPUT_PATH;
     let _ = std::fs::remove_file(output_path);
 
     let sweeps = timeit("list_sweeps", || list_sweeps(base_dir))?;
