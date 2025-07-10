@@ -38,13 +38,13 @@ except ImportError:
     N2V = None
 
 # =========================== USER CONFIGURATION ============================
-DATA_DIR   = "/Users/jacobvaught/Downloads/frames_parallel_9g"   # <‑‑ set your dataset rootis there
+DATA_DIR   = "/Users/jacobvaught/Downloads/test"   # <‑‑ set your dataset rootis there
 OUTPUT_DIR = "Z_clutter_output"
 
 # Toggle individual blocks --------------------------------------------------
-DO_MULTI_LOOK = False   # 2.1  (median by default)
+DO_MULTI_LOOK = True   # 2.1  (median by default)
 DO_LEE_FILTER = False  # 2.2
-DO_BM3D       = True  # 2.3
+DO_BM3D       = False  # 2.3
 DO_HDR_FUSION = False   # fuse cleaned frames across gains
 
 # Internal params -----------------------------------------------------------
@@ -52,8 +52,8 @@ MAX_FRAMES_PER_GAIN = 4   # the four looks per gain
 LEE_WIN_SIZE        = 21   # odd window size
 LEE_DAMPING         = 3.0 # 1 ⇒ classic Lee; >1 smoother
 MERTENS_WEIGHTS     = (1.0, 1.0, 0.2)  # (contrast, saturation, exposure)
-USER_GAINS          = [80, 90, 99]   # gains to include in HDR fusion
-USER_RANGES         = [3]  # e.g. [3] to restrict range‑codes; None ⇒ all
+USER_GAINS          = [30]   # gains to include in HDR fusion
+USER_RANGES         = [1]  # e.g. [3] to restrict range‑codes; None ⇒ all
 
 # =============================== UTILITIES =================================
 

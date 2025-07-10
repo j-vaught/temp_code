@@ -81,12 +81,12 @@ from numba import njit, prange
 import datetime
 
 # ───── USER CONFIG ────────────────────────────────────────────────
-FILE        = "/Users/jacobvaught/Downloads/Research_radar_DATA/sample/test/output.nc"
+FILE        = "/Users/jacobvaught/Downloads/Research_radar_DATA/sample/data_calibration12/output.nc"
 ECHO_VAR    = "echo"
 ANGLE_VAR   = "angle"
 PULSE_STEP  = 1                 # keep every pulse, or thin by 2,4,…
 USE_MPS     = True              # Apple‑GPU for log1p if available
-OUT_DIR     = "frames_parallel_9g" # destination for PNGs
+OUT_DIR     = "frames_parallel" # destination for PNGs
 MAX_WORKERS = os.cpu_count()    # parallelism – leave at os.cpu_count()
 # ──────────────────────────────────────────────────────────────────
 

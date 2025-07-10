@@ -16,6 +16,8 @@ If a filename already exists, an incrementing suffix is appended.
 Dependencies (install via pip):
     numpy, opencv‑python‑headless (or opencv‑python for GUI), pywavelets, tqdm, scikit‑image
 Optional for RPCA:  scikit‑learn, numpy‑linalg‑lstsq (or the 'r_pca' package if installed)
+pip install numpy opencv-python-headless pywavelets tqdm scikit-image scikit-learn numpy
+
 """
 
 from __future__ import annotations
@@ -31,29 +33,29 @@ from skimage import exposure  # type: ignore
 from tqdm import tqdm         # type: ignore
 
 # =========================== USER CONFIGURATION ============================
-DATA_DIR      = "/Users/jacobvaught/Downloads/frames_parallel_9g"     # <‑‑‑‑‑‑‑‑ set before running
+DATA_DIR      = "/Users/jacobvaught/Downloads/test"     # <‑‑‑‑‑‑‑‑ set before running
 OUTPUT_DIR    = "test_clutter_output_HDR"
 
 # Toggle individual processing steps
 DO_MTI_SUBTRACT  = False   # temporal median (MTI‑like) clutter suppression
 DO_WAVELET       = False   # wavelet denoising
 DO_RPCA          = False  # low‑rank (RPCA) background subtraction
-DO_HDR_FUSION    = True    # multi‑gain exposure fusion (Mertens)
-DO_MULTI_FRAME_DENOISE = False # multi‑frame denoising (OpenCV NLM)
+DO_HDR_FUSION    = False    # multi‑gain exposure fusion (Mertens)
+DO_MULTI_FRAME_DENOISE = True # multi‑frame denoising (OpenCV NLM)
 DO_mGAIN_DENOISE = False  # multi‑gain denoising (across all gains for a range code)
 
 
 # ---------------------------------------------------------------------------
 # Internal constants – adjust only if you need to tweak behaviour
-MAX_FRAMES_PER_GAIN = 4          # expect 4 frames for each gain / range combo
-N_SMART_GAINS       = 3          # how many gains to pick automatically
+MAX_FRAMES_PER_GAIN = 2          # expect 2 frames for each gain / range combo
+N_SMART_GAINS       = 1          # how many gains to pick automatically
 WAVELET             = "db2"      # mother wavelet for denoising
 WAVELET_LEVEL       = 6          # decomposition level
 MERGE_MERTENS_CONTRAST_WEIGHT = 0.1  # OpenCV Mertens parameters
 MERGE_MERTENS_SATURATION_WEIGHT = 0.1
 MERGE_MERTENS_EXPOSURE_WEIGHT = 3
-USER_GAINS = [80,90,99]  # <--- set your desired gains here, or None for all
-USER_RANGES = [3]
+USER_GAINS = [30]  # <--- set your desired gains here, or None for all
+USER_RANGES = [1]
 
 
 

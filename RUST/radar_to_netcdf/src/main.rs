@@ -20,8 +20,8 @@ use std::{
 // ─────────────────────────────────────────────────────────────────────
 // Constants
 // ─────────────────────────────────────────────────────────────────────
-pub const BASE_DIR:    &str = "/Users/jacobvaught/Downloads/Research_radar_DATA/sample/test";
-pub const OUTPUT_PATH: &str = "/Users/jacobvaught/Downloads/Research_radar_DATA/sample/test/output.nc";
+pub const BASE_DIR:    &str = "/Users/jacobvaught/Downloads/Research_radar_DATA/sample/data_calibration12";
+pub const OUTPUT_PATH: &str = "/Users/jacobvaught/Downloads/Research_radar_DATA/sample/data_calibration12/output128.nc";
 
 pub const MAX_PULSE: usize = 8192;
 pub const GATE:      usize = 868;
